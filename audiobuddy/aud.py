@@ -1,33 +1,32 @@
-import openai
 import os
+from openai import OpenAI
+from gtts import gTTS
 
-def get_chatgpt_response(prompt):
-    # Set the OpenAI API key
-    openai.api_key = os.getenv("OPENAI_API_KEY")
+def get_chatgpt_response(prompt, lang, f_name):
     
+    client = OpenAI( api_key=os.environ.get("OPENAI_API_KEY"),)
     
-    # Create a chat completion using the openai library directly
-    chat_completion = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",  # or "gpt-4" depending on your subscription
-        messages=[{"role": "user", "content": prompt}]
-    )
-
-    # Print the raw response from OpenAI (optional)
-    print(chat_completion)
-
-    # Extract and return the text of the response
-    response_text = chat_completion.choices[0].message['content']
+    chat_completion = client.chat.completions.create(
+    messages=[
+        {
+            "role": "user",
+            "content": prompt,
+        }
+    ],
+    model="gpt-3.5-turbo",)
+    
+    response_text = chat_completion.choices[0].message.content
+    tts = gTTS(response_text, lang=lang)
+    tts.save(f_name+".mp3") 
     return response_text
 
 def main():
-    # Take user input
+    
     user_input = input("Please enter your message: ")
+    user_lang= input("Please pick your language: ")
+    f_name= input("Name your file: ")
+    chatgpt_response = get_chatgpt_response(user_input, user_lang, f_name)
 
-    # Get response from ChatGPT
-    chatgpt_response = get_chatgpt_response(user_input)
-
-    # Print the response
-    print("ChatGPT Response:", chatgpt_response)
 
 if __name__ == "__main__":
     main()
