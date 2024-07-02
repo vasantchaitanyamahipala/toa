@@ -29,7 +29,7 @@ def get_chatgpt_response(prompt, lang, f_name, spl, saveinfo):
 
 def synthesize_text(text, language, saveinfo, f_name):
     
-    client = ElevenLabs(api_key="")
+    client = ElevenLabs(api_key=os.environ.get("ELEVENLABS_API_KEY"))
     voice=input("Pick your choice of voice: ")
     audio = client.generate(
     text=text,
