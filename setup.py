@@ -13,7 +13,7 @@ setup(
     author_email="<vasantchaitanya@gmail.com>",
     description=DESCRIPTION,
     packages=find_packages(),
-    install_requires=[openai],
+    install_requires=[openai,elevenlabs,ffmeg],
     keywords=['text to audio', 'audio', 'llm', 'openai','text'],
     classifiers=[
         "Development Status :: 1 - Planning",
